@@ -1,0 +1,193 @@
+version: 2
+
+sources:
+
+  - name: ecomerce
+    description: "Dados do ecomerce"
+    schema: dbt_dw_raw
+    loader : bigquery
+
+    tables:
+      - name: avaliacoes
+        description: "Tabela de avaliações de produtos"
+        columns:
+          - name: cliente_id
+            description: "Chave estrangeira ID do cliente que fez a avaliação"
+            data_tests:
+              - not_null
+
+          - name: produto_id
+            description: "Chave estrangeira ID do produto avaliado"
+            data_tests:
+              - not_null
+
+          - name: nota
+            description: "Nota da avaliação do produto"
+
+          - name: comentario
+            description: "Comentário da avaliação do produto"
+
+          - name: data_avaliacao
+            description: "Data em que a avaliação foi feita"
+
+      - name: carrinho
+        description: "Tabela de itens no carrinho"
+        columns:
+          - name: cliente_id
+            description: "Chave estrangeira ID do cliente que adicionou o item ao carrinho"
+            data_tests:
+              - not_null
+
+          - name: produto_id
+            description: "Chave estrangeira ID do produto adicionado ao carrinho"
+            data_tests:
+              - not_null
+
+          - name: quantidade
+            description: "Quantidade de itens adicionados ao carrinho"
+
+          - name: data_adicionado
+            description: "Data em que o item foi adicionado ao carrinho"
+
+
+      - name: categorias
+        description: "Tabela de categorias de produtos"
+        columns:
+          - name: id
+            description: "Chave primária da categoria"
+            data_tests:
+              - not_null
+              - unique
+
+          - name: nome
+            description: "Nome da categoria"
+              
+      - name: clientes
+        description: "Tabela de clientes"
+        columns:
+          - name: id
+            description: "Chave primária do cliente"
+            data_tests:
+              - not_null
+              - unique
+
+          - name: nome
+            description: "Nome do cliente"
+
+          - name: email
+            description: "Email do cliente"
+
+          - name: telefone
+            description: "Telefone do cliente"
+
+          - name: data_registro
+            description: "Data em que o cliente se registrou"
+
+      - name: itens_pedidos
+        description: "Tabela de itens dos pedidos"
+        columns: 
+        
+          - name: pedido_id
+            description: "Chave estrangeira ID do pedido"
+            data_tests:
+              - not_null
+
+          - name: produto_id
+            description: "Chave estrangeira ID do produto"
+            data_tests:
+              - not_null
+
+          - name: quantidade
+            description: "Quantidade de itens do pedido"
+          
+          - name: preco_unitario
+            description: "Preço unitário do produto no pedido"
+         
+          - name: subtotal
+            description: "Subtotal do item do pedido (quantidade * preco_unitario)"
+        
+      - name: pagamentos
+        description: "Tabela de pagamentos" 
+        columns:
+          - name: id
+            description: "Chave primária do pagamento"
+            data_tests:
+              - not_null
+              - unique
+
+          - name: pedido_id
+            description: "Chave estrangeira ID do pedido"
+            data_tests:
+              - not_null
+              
+          - name: valor
+            description: "Valor do pagamento"
+            
+          - name: metodo
+            description: "Método de pagamento"
+
+          - name: status
+            description: "Status do pagamento"
+
+          - name: data_pagamento
+            description: "Data do pagamento"
+
+
+      - name: pedidos 
+        description: "Tabela de pedidos"
+        columns:
+
+          - name: id
+            description: "Chave primária do pedido"
+            data_tests:
+              - not_null
+
+          - name: cliente_id
+            description: "Chave estrangenira do cliente"
+            data_test:
+              - not_null
+
+          - name: endereco_id
+            description: "Chave estrangeira do endereço"
+            data_tests:
+              - not_null
+
+          - name: data_pedido
+            description: "Data em que o pedido foi feito"
+
+          - name: status
+            description: "Status do pedido"
+
+
+      - name: produtos
+        description: "Tabela de produtos"
+        columns:
+
+          - name: id
+            description: "Chave primária do produto"
+            data_tests:
+              - not_null
+              - unique
+
+          - name: nome
+            description: "Nome do produto"
+
+          - name: descricao
+            description: "Descrição do produto"
+
+          - name: categoria_id
+            description: "Chave estrangeira ID da categoria"
+            data_tests:
+              - not_null
+
+          - name: preco
+            description: "Preço do produto"
+
+          - name: marca
+            description: "Marca do produto"
+
+          - name: estoque
+            description: "Quantidade em estoque do produto"
+
+          - name: data_cadastro
+            description: "Data em que o produto foi cadastrado"
